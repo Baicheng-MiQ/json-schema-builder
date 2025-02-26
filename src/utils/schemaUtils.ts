@@ -44,7 +44,7 @@ function generatePropertySchema(prop: SchemaProperty): PropertySchema {
   return schema;
 }
 
-export function generateSchemaJSON(schema: SchemaDefinition, isStrictMode: boolean): string {
+export function generateSchemaJSON(schema: SchemaDefinition, isStrictMode: boolean, schemaName: string = "schema_definition"): string {
   const schemaContent = {
     type: "object",
     properties: schema.properties.reduce(
@@ -59,7 +59,7 @@ export function generateSchemaJSON(schema: SchemaDefinition, isStrictMode: boole
   };
 
   const openAISchema = {
-    name: "schema_definition",
+    name: schemaName,
     strict: isStrictMode,
     schema: schemaContent,
   };

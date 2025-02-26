@@ -9,10 +9,12 @@ const defaultSchema: SchemaDefinition = {
 
 export const useSchemaState = (
   initialSchema: SchemaDefinition = defaultSchema,
-  initialStrictMode = true
+  initialStrictMode = true,
+  initialSchemaName = "schema_definition"
 ) => {
   const [schema, setSchema] = useState<SchemaDefinition>(initialSchema);
   const [isStrictMode, setIsStrictMode] = useState(initialStrictMode);
+  const [schemaName, setSchemaName] = useState(initialSchemaName);
   const [enumInputValues, setEnumInputValues] = useState<{ [key: number]: string }>({});
 
   const addProperty = () => {
@@ -80,6 +82,8 @@ export const useSchemaState = (
   return {
     schema,
     isStrictMode,
+    schemaName,
+    setSchemaName,
     enumInputValues,
     setEnumInputValues,
     addProperty,

@@ -1,3 +1,4 @@
+import "../index.css";
 import { useSchemaState } from "../utils/useSchemaState";
 import { Card } from "./ui/card";
 import { ScrollArea } from "./ui/scroll-area";
@@ -14,27 +15,29 @@ import { cn } from "../utils/utils";
 interface SchemaBuilderProps {
   initialSchema?: SchemaDefinition;
   initialStrictMode?: boolean;
+  initialSchemaName?: string;
   className?: string;
   cardClassName?: string;
-  maxHeight?: string;
+  outputClassName?: string;
   showOutput?: boolean;
   onSchemaChange?: (schema: string) => void;
-  onStrictModeChange?: (isStrict: boolean) => void;
 }
 
 export const SchemaBuilder = ({
   initialSchema,
   initialStrictMode = true,
-  className = "flex min-h-screen bg-background p-6 gap-6 animate-fade-in",
+  initialSchemaName = "schema_definition",
+  className = "flex bg-background p-6 gap-6 animate-fade-in",
   cardClassName = "flex-1 p-6 backdrop-blur-sm bg-opacity-50 min-w-[600px]",
-  maxHeight,
+  outputClassName = "flex-1 p-6 backdrop-blur-sm bg-opacity-50",
   showOutput = true,
   onSchemaChange,
-  onStrictModeChange
 }: SchemaBuilderProps = {}) => {
   const {
     schema,
     isStrictMode,
+    schemaName,
+    setSchemaName,
     enumInputValues,
     setEnumInputValues,
     addProperty,
@@ -42,7 +45,7 @@ export const SchemaBuilder = ({
     updateProperty,
     handlePropertyReorder,
     handleStrictModeChange,
-  } = useSchemaState(initialSchema, initialStrictMode);
+  } = useSchemaState(initialSchema, initialStrictMode, initialSchemaName);
 
   const [validationErrors, setValidationErrors] = React.useState<ValidationError[]>([]);
 
@@ -70,19 +73,14 @@ export const SchemaBuilder = ({
   };
 
   const handleCopySchema = () => {
-    const schemaString = generateSchemaJSON(schema, isStrictMode);
+    const schemaString = generateSchemaJSON(schema, isStrictMode, schemaName);
     navigator.clipboard.writeText(schemaString);
   };
 
   // Call onSchemaChange when schema updates
   React.useEffect(() => {
-    onSchemaChange?.(generateSchemaJSON(schema, isStrictMode));
-  }, [schema, isStrictMode, onSchemaChange]);
-
-  // Call onStrictModeChange when strict mode changes
-  React.useEffect(() => {
-    onStrictModeChange?.(isStrictMode);
-  }, [isStrictMode, onStrictModeChange]);
+    onSchemaChange?.(generateSchemaJSON(schema, isStrictMode, schemaName));
+  }, [schema, isStrictMode, schemaName, onSchemaChange]);
 
   React.useEffect(() => {
     setValidationErrors(validateSchema(schema));
@@ -93,11 +91,14 @@ export const SchemaBuilder = ({
       <Card className={cn(cardClassName, !showOutput && "max-w-[800px]")}>
         <SchemaHeader
           isStrictMode={isStrictMode}
+          hasErrors={validationErrors.length > 0}
+          schemaName={schemaName}
           onStrictModeChange={handleStrictModeChange}
+          onSchemaNameChange={setSchemaName}
           onAddProperty={addProperty}
           onCopySchema={handleCopySchema}
         />
-        <ScrollArea className={maxHeight ? maxHeight : "h-[calc(100vh-200px)]"}>
+        <ScrollArea>
           <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
             <SortableContext items={schema.properties.map((_, i) => `property-${i}`)} strategy={verticalListSortingStrategy}>
               <div className="space-y-4">
@@ -150,7 +151,8 @@ export const SchemaBuilder = ({
 
       {showOutput && (
         <SchemaOutput
-          schemaJson={generateSchemaJSON(schema, isStrictMode)}
+          className={outputClassName}
+          schemaJson={generateSchemaJSON(schema, isStrictMode, schemaName)}
           onCopySchema={handleCopySchema}
           hasErrors={validationErrors.length > 0}
         />

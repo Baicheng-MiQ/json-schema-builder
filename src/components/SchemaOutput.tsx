@@ -8,11 +8,12 @@ interface SchemaOutputProps {
   schemaJson: string;
   onCopySchema: () => void;
   hasErrors?: boolean;
+  className?: string;
 }
 
-export const SchemaOutput = ({ schemaJson, onCopySchema, hasErrors }: SchemaOutputProps) => {
+export const SchemaOutput = ({ schemaJson, onCopySchema, hasErrors, className }: SchemaOutputProps) => {
   return (
-    <Card className={cn("flex-1 min-w-[600px] p-6 backdrop-blur-sm bg-opacity-50", hasErrors && "opacity-50")}>
+    <Card className={cn(className, hasErrors && "opacity-50")}>
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
           <ChevronRight className="w-4 h-4" />

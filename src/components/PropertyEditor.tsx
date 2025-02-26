@@ -68,7 +68,7 @@ export function PropertyEditor({
       className={cn(
         "p-4 border transition-all hover:shadow-md animate-slide-in",
         nestingLevel > 0 ? "ml-8" : "",
-        propertyErrors.length > 0 && "border-destructive"
+        propertyErrors.length > 0 && "border-red-500"
       )}
     >
       <div className="flex gap-4 items-start">
@@ -81,7 +81,7 @@ export function PropertyEditor({
         </button>
         <div className="flex-grow space-y-4">
           {propertyErrors.length > 0 && (
-            <div className="flex items-center gap-2 text-sm text-destructive">
+            <div className="flex items-center gap-2 text-sm text-red-500">
               <AlertTriangle className="w-4 h-4" />
               <div className="space-y-1">
                 {propertyErrors.map((error, i) => (

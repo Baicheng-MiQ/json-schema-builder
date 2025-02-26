@@ -66,8 +66,8 @@ export const SchemaBuilder = ({
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (over && active.id !== over.id) {
-      const oldIndex = schema.properties.findIndex((p, i) => `property-${i}` === active.id);
-      const newIndex = schema.properties.findIndex((p, i) => `property-${i}` === over.id);
+      const oldIndex = schema.properties.findIndex((_, i) => `property-${i}` === active.id);
+      const newIndex = schema.properties.findIndex((_, i) => `property-${i}` === over.id);
       handlePropertyReorder(oldIndex, newIndex);
     }
   };

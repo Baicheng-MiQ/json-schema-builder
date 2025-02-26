@@ -1,5 +1,7 @@
 # JSON Schema Builder
 
+[Live Demo](https://baicheng-miq.github.io/json-schema-builder/)
+
 A modern, interactive UI tool for building JSON Schema definitions for structured outputs. Perfect for creating schemas used with [OpenAI's structured output feature](https://platform.openai.com/docs/guides/structured-outputs).
 
 ![screenshot](image/README/screenshot.png)

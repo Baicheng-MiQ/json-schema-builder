@@ -27,9 +27,9 @@ export const SchemaBuilder = ({
   initialSchema,
   initialStrictMode = true,
   initialSchemaName = "schema_definition",
-  className = "flex bg-background p-6 gap-6 animate-fade-in",
+  className = "flex bg-background p-6 gap-6 animate-fade-in flex-col lg:flex-row",
   cardClassName = "flex-1 p-6 backdrop-blur-sm bg-opacity-50 min-w-[600px]",
-  outputClassName = "flex-1 p-6 backdrop-blur-sm bg-opacity-50",
+  outputClassName = "flex-1 p-6 backdrop-blur-sm bg-opacity-50 lg:max-w-lg",
   showOutput = true,
   onSchemaChange,
 }: SchemaBuilderProps = {}) => {

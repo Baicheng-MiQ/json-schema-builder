@@ -37,7 +37,7 @@ export const SchemaOutput = ({ schemaJson, onCopySchema, hasErrors, className }:
         </Button>
       </div>
       <ScrollArea className="">
-        <pre className={cn("text-sm bg-muted/50 p-4 rounded-lg overflow-auto", hasErrors && "blur-[2px]")}>
+        <pre className={cn("text-sm bg-muted/50 p-4 rounded-lg overflow-auto text-wrap", hasErrors && "blur-[2px]")}>
           {schemaJson}
         </pre>
       </ScrollArea>
